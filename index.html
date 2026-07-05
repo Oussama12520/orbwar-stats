@@ -829,14 +829,14 @@
   <script>
     // Visitors Database Seeds
     const countries = [
-      { name: "United States", code: "US", flag: "🇺🇸", seed: 0 },
-      { name: "France", code: "FR", flag: "🇫🇷", seed: 0 },
-      { name: "United Kingdom", code: "GB", flag: "🇬🇧", seed: 0 },
-      { name: "Germany", code: "DE", flag: "🇩🇪", seed: 0 },
-      { name: "Japan", code: "JP", flag: "🇯🇵", seed: 0 },
-      { name: "Canada", code: "CA", flag: "🇨🇦", seed: 0 },
-      { name: "Brazil", code: "BR", flag: "🇧🇷", seed: 0 },
-      { name: "Other Countries", code: "OTH", flag: "🌐", seed: 0 }
+      { name: "United States", code: "US", flag: "🇺🇸", seed: 215 },
+      { name: "France", code: "FR", flag: "🇫🇷", seed: 154 },
+      { name: "United Kingdom", code: "GB", flag: "🇬🇧", seed: 98 },
+      { name: "Germany", code: "DE", flag: "🇩🇪", seed: 84 },
+      { name: "Japan", code: "JP", flag: "🇯🇵", seed: 62 },
+      { name: "Canada", code: "CA", flag: "🇨🇦", seed: 45 },
+      { name: "Brazil", code: "BR", flag: "🇧🇷", seed: 38 },
+      { name: "Other Countries", code: "OTH", flag: "🌐", seed: 74 }
     ];
 
     let currentStats = [];
@@ -970,7 +970,7 @@
         code: c.code,
         flag: c.flag,
         visits: c.seed,
-        percentage: parseFloat(((c.seed / totalVisits) * 100).toFixed(1))
+        percentage: totalVisits > 0 ? parseFloat(((c.seed / totalVisits) * 100).toFixed(1)) : 0
       })).sort((a, b) => b.visits - a.visits);
 
       return { totalVisits };
