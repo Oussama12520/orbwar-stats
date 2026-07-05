@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Live visitor metrics, country breakdown statistics, and traffic insights for Orb War game website.">
+  <title>Orb War — Visitor Analytics</title>
+
+  <!-- Modern Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #07070c;
+      --bg-card: rgba(18, 18, 32, 0.45);
+      --border-glow: rgba(136, 85, 255, 0.25);
+      --text-main: #f4f7ff;
+      --text-muted: rgba(244, 247, 255, 0.45);
+      --accent-purple: #8855ff;
+      --accent-blue: #2fa1ff;
+      --accent-green: #39e58c;
+      --font-family: 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(136, 85, 255, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(47, 161, 255, 0.12) 0%, transparent 45%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: var(--font-family);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+
+    /* Core Container */
+    .dashboard-container {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff 30%, var(--accent-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 14px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Premium Glass Cards */
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glow);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(136, 85, 255, 0.4);
+      box-shadow: 0 16px 40px rgba(136, 85, 255, 0.08), 0 12px 32px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Total Visitors Section: Premium Hero on Top */
+    .total-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(20, 16, 45, 0.7) 0%, rgba(13, 13, 26, 0.75) 100%);
+      border: 1px solid rgba(136, 85, 255, 0.45);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(136, 85, 255, 0.15);
+    }
+
+    .total-container::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(136, 85, 255, 0.06) 0%, transparent 60%);
+      pointer-events: none;
+      animation: rotate-slow 20s linear infinite;
+    }
+
+    @keyframes rotate-slow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .live-pulse-container {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(57, 229, 140, 0.08);
+      border: 1px solid rgba(57, 229, 140, 0.2);
+      padding: 4px 10px;
+      border-radius: 20px;
+      z-index: 2;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-green);
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 229, 140, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(57, 229, 140, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 229, 140, 0); }
+    }
+
+    .live-text {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-green);
+      letter-spacing: 0.04em;
+    }
+
+    .total-title {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-top: 10px;
+      z-index: 1;
+    }
+
+    .total-number {
+      font-size: 58px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 8px 0;
+      background: linear-gradient(135deg, #ffffff 40%, #e0d4ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 45px rgba(136, 85, 255, 0.35);
+      z-index: 1;
+    }
+
+    .total-sub {
+      font-size: 13px;
+      color: var(--accent-blue);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 1;
+    }
+
+    /* Sub-Metrics Grid (Ongoing matches, queue, historical played) */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 560px) {
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .metric-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 20px;
+    }
+
+    .metric-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .metric-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    .active-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: 8px;
+      width: fit-content;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .active-badge.orange {
+      background: rgba(255, 159, 67, 0.08);
+      border: 1px solid rgba(255, 159, 67, 0.2);
+      color: #ff9f43;
+    }
+
+    .active-badge.blue {
+      background: rgba(47, 161, 255, 0.08);
+      border: 1px solid rgba(47, 161, 255, 0.2);
+      color: var(--accent-blue);
+    }
+
+    .active-badge.purple {
+      background: rgba(136, 85, 255, 0.08);
+      border: 1px solid rgba(136, 85, 255, 0.2);
+      color: #bfa3ff;
+    }
+
+    .active-badge.yellow {
+      background: rgba(234, 179, 8, 0.08);
+      border: 1px solid rgba(234, 179, 8, 0.2);
+      color: #eab308;
+    }
+
+    .pulse-dot-small {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+
+    .pulse-dot-small.orange { background-color: #ff9f43; box-shadow: 0 0 6px #ff9f43; }
+    .pulse-dot-small.blue { background-color: var(--accent-blue); box-shadow: 0 0 6px var(--accent-blue); }
+    .pulse-dot-small.purple { background-color: var(--accent-purple); box-shadow: 0 0 6px var(--accent-purple); }
+    .pulse-dot-small.yellow { background-color: #eab308; box-shadow: 0 0 6px #eab308; }
+
+    /* Country Breakdown Section */
+    .breakdown-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .breakdown-title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex-grow: 1;
+      max-width: 260px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-glow);
+      border-radius: 12px;
+      padding: 10px 14px 10px 36px;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 13.5px;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 12px rgba(136, 85, 255, 0.2);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    /* Stats List (Single row formatting per country) */
+    .stats-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .country-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      padding: 10px 16px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .country-row:hover {
+      background: rgba(255, 255, 255, 0.035);
+      border-color: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .country-name-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 170px;
+      flex-shrink: 0;
+    }
+
+    .flag-emoji {
+      font-size: 20px;
+      line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .country-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Progress Fill without animation */
+    .progress-track {
+      flex-grow: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+      box-shadow: 0 0 8px rgba(136, 85, 255, 0.4);
+    }
+
+    .country-metrics {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      width: 145px;
+      flex-shrink: 0;
+    }
+
+    .visitor-count {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .percentage-badge {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-purple);
+      background: rgba(136, 85, 255, 0.12);
+      padding: 3px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(136, 85, 255, 0.2);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 580px) {
+      .country-row {
+        flex-wrap: wrap;
+        gap: 8px 12px;
+      }
+      .country-name-wrapper {
+        width: auto;
+        flex-grow: 1;
+      }
+      .country-metrics {
+        width: auto;
+        justify-content: flex-start;
+      }
+      .progress-track {
+        width: 100%;
+        order: 3;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 20px 12px;
+      }
+      .dashboard-container {
+        gap: 16px;
+      }
+      header h1 {
+        font-size: 24px;
+      }
+      header p {
+        font-size: 11px;
+      }
+      .card {
+        padding: 18px 14px;
+        border-radius: 16px;
+      }
+      .total-number {
+        font-size: 42px;
+        margin: 4px 0;
+      }
+      .total-title {
+        font-size: 11px;
+      }
+      .live-pulse-container {
+        top: 12px;
+        right: 14px;
+        padding: 3px 8px;
+      }
+      .metrics-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+      }
+      .metric-card {
+        padding: 12px 6px;
+        align-items: center;
+        text-align: center;
+      }
+      .metric-label {
+        font-size: 8.5px;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+      }
+      .metric-value {
+        font-size: 22px;
+      }
+      .active-badge {
+        font-size: 8px;
+        padding: 2px 4px;
+        gap: 3px;
+      }
+      .active-badge span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .breakdown-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .search-wrapper {
+        max-width: 100%;
+        width: 100%;
+      }
+      .country-row {
+        padding: 8px 12px;
+        gap: 6px 12px;
+      }
+      .flag-emoji {
+        font-size: 18px;
+      }
+      .country-name {
+        font-size: 13.5px;
+      }
+      .visitor-count {
+        font-size: 12px;
+      }
+      .percentage-badge {
+        font-size: 11.5px;
+        padding: 2px 6px;
+        border-radius: 6px;
+      }
+      .pin-card {
+        padding: 24px 16px;
+      }
+      .pin-title {
+        font-size: 18px;
+      }
+      .pin-description {
+        font-size: 12px;
+      }
+      .pin-input {
+        font-size: 16px;
+        padding: 12px;
+      }
+    }
+
+    /* Lock Screen Pin Overlay styles */
+    .pin-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(7, 7, 11, 0.85);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .pin-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .pin-card {
+      background: rgba(18, 18, 32, 0.7);
+      border: 1px solid rgba(136, 85, 255, 0.2);
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 40px rgba(136, 85, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .pin-logo {
+      font-size: 32px;
+      animation: pulse-glow 2s infinite alternate;
+    }
+
+    @keyframes pulse-glow {
+      0% { text-shadow: 0 0 10px rgba(136, 85, 255, 0.2); }
+      100% { text-shadow: 0 0 25px rgba(136, 85, 255, 0.6); }
+    }
+
+    .pin-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    .pin-description {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .pin-input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .pin-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 14px;
+      color: #ffffff;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: 0.5em;
+      font-weight: 700;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .pin-input:focus {
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 15px rgba(136, 85, 255, 0.2);
+    }
+
+    .pin-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(136, 85, 255, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    .pin-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(136, 85, 255, 0.4);
+    }
+
+    .pin-btn:active {
+      transform: translateY(0);
+    }
+
+    .pin-error {
+      color: #ff5252;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    .shake {
+      animation: shake 0.4s ease;
+    }
+
+    /* Footer styling */
+    footer {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    footer a {
+      color: var(--accent-purple);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--accent-blue);
+      text-decoration: underline;
+    }
+
+    /* No search results feedback */
+    .no-results {
+      text-align: center;
+      padding: 30px 0;
+      color: var(--text-muted);
+      display: none;
+      font-size: 14.5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Console PIN Lock Screen Overlay -->
+  <div class="pin-overlay" id="pin-overlay">
+    <div class="pin-card" id="pin-card">
+      <div class="pin-logo">🔒</div>
+      <div class="pin-title">Security Authentication Required</div>
+      <div class="pin-description">This console is restricted. Please enter the security PIN code to verify your device.</div>
+      
+      <div class="pin-input-wrapper">
+        <input type="password" id="pin-input" class="pin-input" placeholder="•••••" maxlength="5" autocomplete="off" autofocus>
+      </div>
+
+      <div class="pin-error" id="pin-error">Incorrect PIN code. Access Denied.</div>
+      <button class="pin-btn" id="pin-submit-btn">Verify Device</button>
+    </div>
+  </div>
+
+  <div class="dashboard-container">
+
+    <header>
+      <p id="site-subtitle">Global Traffic Insights</p>
+      <h1 id="site-title">ORB WAR STATISTICS</h1>
+    </header>
+
+    <!-- Card 1: Total visitors -->
+    <div class="card total-container" id="total-card">
+      <div class="live-pulse-container">
+        <div class="pulse-dot"></div>
+        <span class="live-text" id="live-users-text">0 ONLINE</span>
+      </div>
+
+      <span class="total-title">Total Cumulative Visitors</span>
+      <h2 class="total-number" id="total-visitors-count">0</h2>
+
+      <div class="total-sub">
+        <span>+14.8% Increase this week</span>
+      </div>
+    </div>
+
+    <!-- Card 1.5: Match Statistics Grid -->
+    <div class="metrics-grid">
+      <!-- Active Battles -->
+      <div class="card metric-card">
+        <span class="metric-label">Ongoing Battles</span>
+        <h3 class="metric-value" id="active-rooms-text">0</h3>
+        <div class="active-badge orange">
+          <div class="pulse-dot-small orange"></div>
+          <span>ACTIVE ROOMS</span>
+        </div>
+      </div>
+
+      <!-- Matchmaker Queue -->
+      <div class="card metric-card">
+        <span class="metric-label">In Match Queue</span>
+        <h3 class="metric-value" id="queue-players-text">0</h3>
+        <div class="active-badge blue">
+          <div class="pulse-dot-small blue"></div>
+          <span>MATCHMAKER</span>
+        </div>
+      </div>
+
+      <!-- Total Matches Played -->
+      <div class="card metric-card">
+        <span class="metric-label">Matches Played</span>
+        <h3 class="metric-value" id="total-matches-text">0</h3>
+        <div class="active-badge purple">
+          <div class="pulse-dot-small purple"></div>
+          <span>HISTORICAL</span>
+        </div>
+      </div>
+
+      <!-- Memory Void Played -->
+      <div class="card metric-card">
+        <span class="metric-label">Memory Void Played</span>
+        <h3 class="metric-value" id="void-matches-text">0</h3>
+        <div class="active-badge yellow">
+          <div class="pulse-dot-small yellow"></div>
+          <span>SPECIAL MODE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Country Breakdown list -->
+    <div class="card" id="breakdown-card">
+      <div class="breakdown-header">
+        <span class="breakdown-title" id="breakdown-headline">Visitors by Country</span>
+        <div class="search-wrapper">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)"
+            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="country-search" class="search-input" placeholder="Search countries..."
+            aria-label="Search countries">
+        </div>
+      </div>
+
+      <div class="stats-list" id="stats-list-container">
+        <!-- Rendered dynamically by JS -->
+      </div>
+
+      <div class="no-results" id="no-results-msg">
+        No country matches your search.
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Orb War Game. Fully Optimized Analytics dashboard. <a href="index.html">Back to Game</a></p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Visitors Database Seeds
+    const countries = [
+      { name: "United States", code: "US", flag: "🇺🇸", seed: 0 },
+      { name: "France", code: "FR", flag: "🇫🇷", seed: 0 },
+      { name: "United Kingdom", code: "GB", flag: "🇬🇧", seed: 0 },
+      { name: "Germany", code: "DE", flag: "🇩🇪", seed: 0 },
+      { name: "Japan", code: "JP", flag: "🇯🇵", seed: 0 },
+      { name: "Canada", code: "CA", flag: "🇨🇦", seed: 0 },
+      { name: "Brazil", code: "BR", flag: "🇧🇷", seed: 0 },
+      { name: "Other Countries", code: "OTH", flag: "🌐", seed: 0 }
+    ];
+
+    let currentStats = [];
+
+    // Render Stats Rows (Instant width styling, no setTimeout delays)
+    function renderStats(filterQuery = "") {
+      const container = document.getElementById("stats-list-container");
+      const noResultsMsg = document.getElementById("no-results-msg");
+      container.innerHTML = "";
+
+      const filtered = currentStats.filter(item =>
+        item.country.toLowerCase().includes(filterQuery.toLowerCase())
+      );
+
+      if (filtered.length === 0) {
+        noResultsMsg.style.display = "block";
+      } else {
+        noResultsMsg.style.display = "none";
+      }
+
+      filtered.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "country-row";
+        row.id = `country-row-${item.code.toLowerCase()}`;
+
+        row.innerHTML = `
+          <div class="country-name-wrapper">
+            <span class="flag-emoji">${item.flag}</span>
+            <span class="country-name">${item.country}</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: ${item.percentage}%" id="progress-fill-${item.code.toLowerCase()}"></div>
+          </div>
+          <div class="country-metrics">
+            <span class="visitor-count">${item.visits.toLocaleString()} visits</span>
+            <span class="percentage-badge">${item.percentage}%</span>
+          </div>
+        `;
+
+        container.appendChild(row);
+      });
+    }
+
+    // Smooth counter animation
+    function animateCounter(targetId, targetNum, duration = 1200) {
+      const element = document.getElementById(targetId);
+      if (!element) return;
+      const start = 0;
+      const startTime = performance.now();
+
+      element.textContent = "0";
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Easing out quadratic function
+        const easedProgress = progress * (2 - progress);
+        const currentNum = Math.floor(start + easedProgress * (targetNum - start));
+
+        element.textContent = currentNum.toLocaleString();
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    // Resolve local C# API address based on client hostname (fallback to 127.0.0.1 if hosted on Pages)
+    let hostname = window.location.hostname || "127.0.0.1";
+    if (hostname.endsWith("github.io")) {
+      hostname = "127.0.0.1";
+    }
+    const API_BASE = `http://${hostname}:5200/api/visitors`;
+
+    // Fetch user's public IP address via a CORS-friendly endpoint
+    async function getVisitorIp() {
+      try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        if (res.ok) {
+          const data = await res.json();
+          return data.ip;
+        }
+      } catch (e) {
+        console.warn("Public IP lookup failed, falling back to connection IP detection", e);
+      }
+      return null;
+    }
+
+    // Increment counters on the local API
+    async function trackVisit(ipAddress) {
+      try {
+        const url = `${API_BASE}/track` + (ipAddress ? `?ipAddress=${ipAddress}` : "");
+        const res = await fetch(url, { method: "POST" });
+        if (res.ok) {
+          const data = await res.json();
+          updateDataFromApi(data);
+          return true;
+        }
+      } catch (e) {
+        console.warn("Could not increment visit counters on local API", e);
+      }
+      return false;
+    }
+
+    // Fetch stats from local API
+    async function fetchStats() {
+      try {
+        const res = await fetch(`${API_BASE}/stats`);
+        if (res.ok) {
+          const data = await res.json();
+          updateDataFromApi(data);
+          return data;
+        }
+      } catch (e) {
+        console.warn("Could not fetch stats from local API", e);
+      }
+
+      // Fallback: Populate static data from seeds if API is offline
+      const totalVisits = countries.reduce((acc, curr) => acc + curr.seed, 0);
+      currentStats = countries.map(c => ({
+        country: c.name,
+        code: c.code,
+        flag: c.flag,
+        visits: c.seed,
+        percentage: parseFloat(((c.seed / totalVisits) * 100).toFixed(1))
+      })).sort((a, b) => b.visits - a.visits);
+
+      return { totalVisits };
+    }
+
+    function updateDataFromApi(data) {
+      if (!data) return;
+      if (data.countries) {
+        currentStats = data.countries.map(c => ({
+          country: c.name,
+          code: c.code,
+          flag: c.flag,
+          visits: c.count,
+          percentage: c.percentage
+        }));
+      }
+
+      // Update counters directly on UI
+      if (typeof data.onlineUsers === "number") {
+        document.getElementById("live-users-text").textContent = `${data.onlineUsers} ONLINE`;
+      }
+      if (typeof data.activeMatches === "number") {
+        document.getElementById("active-rooms-text").textContent = data.activeMatches.toLocaleString();
+      }
+      if (typeof data.queueCount === "number") {
+        document.getElementById("queue-players-text").textContent = data.queueCount.toLocaleString();
+      }
+      if (typeof data.totalMatchesPlayed === "number") {
+        document.getElementById("total-matches-text").textContent = data.totalMatchesPlayed.toLocaleString();
+      }
+      if (typeof data.memoryVoidMatchesPlayed === "number") {
+        document.getElementById("void-matches-text").textContent = data.memoryVoidMatchesPlayed.toLocaleString();
+      }
+      if (typeof data.totalVisits === "number") {
+        const counterEl = document.getElementById("total-visitors-count");
+        if (counterEl && counterEl.textContent !== "0") {
+          counterEl.textContent = data.totalVisits.toLocaleString();
+        }
+      }
+    }
+
+    // Event Listeners
+    document.getElementById("country-search").addEventListener("input", (e) => {
+      renderStats(e.target.value);
+    });
+
+    // Console Authorization Mechanics (Hashed to prevent exposure in raw source inspects)
+    const CORRECT_HASH = "90e1956c442d4a555ea5fcac8df4bee61db6718d419f8b4189b076a4b268d12b";
+
+    async function hashPin(str) {
+      const msgUint8 = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    function bootDashboard() {
+      // 1. Resolve user's public IP address (CORS-friendly) and track visit
+      getVisitorIp().then(async (userIp) => {
+        try {
+          await trackVisit(userIp);
+        } catch (e) {
+          console.warn("Visitor IP tracking failed", e);
+        }
+      });
+
+      // 2. Fetch initial stats immediately
+      fetchStats().then((data) => {
+        renderStats();
+        animateCounter("total-visitors-count", data.totalVisits || 0, 1200);
+        animateCounter("active-rooms-text", data.activeMatches || 0, 1000);
+        animateCounter("queue-players-text", data.queueCount || 0, 1000);
+        animateCounter("total-matches-text", data.totalMatchesPlayed || 0, 1200);
+        animateCounter("void-matches-text", data.memoryVoidMatchesPlayed || 0, 1200);
+      }).catch((e) => console.warn("Initial dashboard loading failed", e));
+
+      // 3. Periodically poll stats (every 5 seconds) to keep count and stats fresh
+      setInterval(async () => {
+        const data = await fetchStats();
+        renderStats();
+        if (data && typeof data.totalVisits === "number") {
+          document.getElementById("total-visitors-count").textContent = data.totalVisits.toLocaleString();
+        }
+      }, 5000);
+    }
+
+    async function checkAndSubmitPin() {
+      const pinInput = document.getElementById("pin-input");
+      const pinError = document.getElementById("pin-error");
+      const pinCard = document.getElementById("pin-card");
+
+      const enteredHash = await hashPin(pinInput.value);
+
+      if (enteredHash === CORRECT_HASH) {
+        localStorage.setItem("stats_authenticated", "true");
+        document.getElementById("pin-overlay").classList.add("hidden");
+        bootDashboard();
+      } else {
+        pinCard.classList.add("shake");
+        pinError.style.display = "block";
+        pinInput.value = "";
+        setTimeout(() => {
+          pinCard.classList.remove("shake");
+        }, 400);
+      }
+    }
+
+    // Boot Loader check
+    window.addEventListener("DOMContentLoaded", () => {
+      const isAuth = localStorage.getItem("stats_authenticated") === "true";
+      const pinOverlay = document.getElementById("pin-overlay");
+      const pinInput = document.getElementById("pin-input");
+      const submitBtn = document.getElementById("pin-submit-btn");
+
+      if (isAuth) {
+        pinOverlay.classList.add("hidden");
+        bootDashboard();
+      } else {
+        pinOverlay.classList.remove("hidden");
+        pinInput.focus();
+
+        // Handle button click
+        submitBtn.addEventListener("click", checkAndSubmitPin);
+
+        // Handle Enter key in input field
+        pinInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            checkAndSubmitPin();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
