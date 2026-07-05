@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Live visitor metrics, country breakdown statistics, and traffic insights for Orb War game website.">
+  <meta name="description"
+    content="Live visitor metrics, country breakdown statistics, and traffic insights for Orb War game website.">
   <title>Orb War — Visitor Analytics</title>
 
   <!-- Modern Google Font -->
@@ -93,37 +95,60 @@
       margin-right: auto;
       transition: all 0.3s ease;
     }
+
     .api-status-badge.online {
       background: rgba(4, 211, 150, 0.1);
       border: 1px solid rgba(4, 211, 150, 0.2);
       color: #04d396;
     }
+
     .api-status-badge.offline {
       background: rgba(255, 100, 100, 0.1);
       border: 1px solid rgba(255, 100, 100, 0.2);
       color: #ff6464;
     }
+
     .api-status-badge .status-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
       background-color: currentColor;
     }
+
     .api-status-badge.online .status-dot {
       animation: pulse-green 1.5s infinite;
     }
+
     .api-status-badge.offline .status-dot {
       animation: pulse-red 1.5s infinite;
     }
+
     @keyframes pulse-green {
-      0% { box-shadow: 0 0 0 0 rgba(4, 211, 150, 0.4); }
-      70% { box-shadow: 0 0 0 6px rgba(4, 211, 150, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(4, 211, 150, 0); }
+      0% {
+        box-shadow: 0 0 0 0 rgba(4, 211, 150, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 6px rgba(4, 211, 150, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(4, 211, 150, 0);
+      }
     }
+
     @keyframes pulse-red {
-      0% { box-shadow: 0 0 0 0 rgba(255, 100, 100, 0.4); }
-      70% { box-shadow: 0 0 0 6px rgba(255, 100, 100, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 100, 100, 0); }
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 100, 100, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 6px rgba(255, 100, 100, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 100, 100, 0);
+      }
     }
 
     /* Premium Glass Cards */
@@ -169,8 +194,13 @@
     }
 
     @keyframes rotate-slow {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     .live-pulse-container {
@@ -197,9 +227,20 @@
     }
 
     @keyframes pulse {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 229, 140, 0.7); }
-      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(57, 229, 140, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 229, 140, 0); }
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(57, 229, 140, 0.7);
+      }
+
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(57, 229, 140, 0);
+      }
+
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(57, 229, 140, 0);
+      }
     }
 
     .live-text {
@@ -247,14 +288,7 @@
       gap: 16px;
     }
 
-    @media (max-width: 700px) {
-      .metrics-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-      }
-    }
-
-    @media (max-width: 360px) {
+    @media (max-width: 560px) {
       .metrics-grid {
         grid-template-columns: 1fr;
       }
@@ -324,10 +358,25 @@
       border-radius: 50%;
     }
 
-    .pulse-dot-small.orange { background-color: #ff9f43; box-shadow: 0 0 6px #ff9f43; }
-    .pulse-dot-small.blue { background-color: var(--accent-blue); box-shadow: 0 0 6px var(--accent-blue); }
-    .pulse-dot-small.purple { background-color: var(--accent-purple); box-shadow: 0 0 6px var(--accent-purple); }
-    .pulse-dot-small.yellow { background-color: #eab308; box-shadow: 0 0 6px #eab308; }
+    .pulse-dot-small.orange {
+      background-color: #ff9f43;
+      box-shadow: 0 0 6px #ff9f43;
+    }
+
+    .pulse-dot-small.blue {
+      background-color: var(--accent-blue);
+      box-shadow: 0 0 6px var(--accent-blue);
+    }
+
+    .pulse-dot-small.purple {
+      background-color: var(--accent-purple);
+      box-shadow: 0 0 6px var(--accent-purple);
+    }
+
+    .pulse-dot-small.yellow {
+      background-color: #eab308;
+      box-shadow: 0 0 6px #eab308;
+    }
 
     /* Country Breakdown Section */
     .breakdown-header {
@@ -475,14 +524,17 @@
         flex-wrap: wrap;
         gap: 8px 12px;
       }
+
       .country-name-wrapper {
         width: auto;
         flex-grow: 1;
       }
+
       .country-metrics {
         width: auto;
         justify-content: flex-start;
       }
+
       .progress-track {
         width: 100%;
         order: 3;
@@ -493,40 +545,50 @@
       body {
         padding: 20px 12px;
       }
+
       .dashboard-container {
         gap: 16px;
       }
+
       header h1 {
         font-size: 24px;
       }
+
       header p {
         font-size: 11px;
       }
+
       .card {
         padding: 18px 14px;
         border-radius: 16px;
       }
+
       .total-number {
         font-size: 42px;
         margin: 4px 0;
       }
+
       .total-title {
         font-size: 11px;
       }
+
       .live-pulse-container {
         top: 12px;
         right: 14px;
         padding: 3px 8px;
       }
+
       .metrics-grid {
         grid-template-columns: repeat(4, 1fr);
         gap: 6px;
       }
+
       .metric-card {
         padding: 12px 6px;
         align-items: center;
         text-align: center;
       }
+
       .metric-label {
         font-size: 8.5px;
         letter-spacing: 0.02em;
@@ -535,55 +597,69 @@
         text-overflow: ellipsis;
         width: 100%;
       }
+
       .metric-value {
         font-size: 22px;
       }
+
       .active-badge {
         font-size: 8px;
         padding: 2px 4px;
         gap: 3px;
       }
+
       .active-badge span {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
       .breakdown-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
       }
+
       .search-wrapper {
         max-width: 100%;
         width: 100%;
       }
+
       .country-row {
         padding: 8px 12px;
         gap: 6px 12px;
       }
+
       .flag-emoji {
         font-size: 18px;
       }
+
       .country-name {
         font-size: 13.5px;
       }
+
       .visitor-count {
         font-size: 12px;
       }
+
       .percentage-badge {
         font-size: 11.5px;
         padding: 2px 6px;
         border-radius: 6px;
       }
+
       .pin-card {
         padding: 24px 16px;
       }
+
       .pin-title {
         font-size: 18px;
       }
+
       .pin-description {
         font-size: 12px;
       }
+
       .pin-input {
         font-size: 16px;
         padding: 12px;
@@ -623,7 +699,7 @@
       max-width: 400px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 40px rgba(136, 85, 255, 0.1);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(136, 85, 255, 0.1);
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -635,8 +711,13 @@
     }
 
     @keyframes pulse-glow {
-      0% { text-shadow: 0 0 10px rgba(136, 85, 255, 0.2); }
-      100% { text-shadow: 0 0 25px rgba(136, 85, 255, 0.6); }
+      0% {
+        text-shadow: 0 0 10px rgba(136, 85, 255, 0.2);
+      }
+
+      100% {
+        text-shadow: 0 0 25px rgba(136, 85, 255, 0.6);
+      }
     }
 
     .pin-title {
@@ -708,9 +789,21 @@
     }
 
     @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-8px); }
-      40%, 80% { transform: translateX(8px); }
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20%,
+      60% {
+        transform: translateX(-8px);
+      }
+
+      40%,
+      80% {
+        transform: translateX(8px);
+      }
     }
 
     .shake {
@@ -755,10 +848,12 @@
     <div class="pin-card" id="pin-card">
       <div class="pin-logo">🔒</div>
       <div class="pin-title">Security Authentication Required</div>
-      <div class="pin-description">This console is restricted. Please enter the security PIN code to verify your device.</div>
-      
+      <div class="pin-description">This console is restricted. Please enter the security PIN code to verify your device.
+      </div>
+
       <div class="pin-input-wrapper">
-        <input type="password" id="pin-input" class="pin-input" placeholder="•••••" maxlength="5" autocomplete="off" autofocus>
+        <input type="password" id="pin-input" class="pin-input" placeholder="•••••" maxlength="5" autocomplete="off"
+          autofocus>
       </div>
 
       <div class="pin-error" id="pin-error">Incorrect PIN code. Access Denied.</div>
@@ -771,19 +866,25 @@
     <div class="pin-card" style="max-width: 440px;">
       <div class="pin-logo">⚙️</div>
       <div class="pin-title">API Connection Settings</div>
-      <div class="pin-description">Enter the backend server API base URL (e.g. for local testing). The default public URL is <strong>https://orbwarapi-zqplq76m.b4a.run/api/visitors</strong>.</div>
-      
+      <div class="pin-description">Enter the backend server API base URL (e.g. for local testing). The default public
+        URL is <strong>https://orbwarapi-w4oiadxo.b4a.run/api/visitors</strong>.</div>
+
       <div class="pin-input-wrapper">
-        <input type="text" id="api-url-input" class="pin-input" style="letter-spacing: normal; font-size: 14.5px; text-align: left; padding: 12px 14px;" placeholder="https://orbwarapi-zqplq76m.b4a.run/api/visitors">
+        <input type="text" id="api-url-input" class="pin-input"
+          style="letter-spacing: normal; font-size: 14.5px; text-align: left; padding: 12px 14px;"
+          placeholder="https://orbwarapi-w4oiadxo.b4a.run/api/visitors">
       </div>
 
-      <div class="pin-error" id="api-error" style="color: #ff5252; margin-top: -5px; margin-bottom: 5px;">Invalid URL format. Must start with http:// or https://</div>
-      
+      <div class="pin-error" id="api-error" style="color: #ff5252; margin-top: -5px; margin-bottom: 5px;">Invalid URL
+        format. Must start with http:// or https://</div>
+
       <div style="display: flex; gap: 10px; width: 100%;">
         <button class="pin-btn" onclick="saveApiBase()" style="flex: 1;">Save & Apply</button>
-        <button class="pin-btn" onclick="closeApiModal()" style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff;">Cancel</button>
+        <button class="pin-btn" onclick="closeApiModal()"
+          style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff;">Cancel</button>
       </div>
-      <a href="#" onclick="resetApiBase(event)" id="api-reset-btn" style="font-size: 12px; color: var(--accent-blue); text-decoration: none; margin-top: 5px;">Reset to Default</a>
+      <a href="#" onclick="resetApiBase(event)" id="api-reset-btn"
+        style="font-size: 12px; color: var(--accent-blue); text-decoration: none; margin-top: 5px;">Reset to Default</a>
     </div>
   </div>
 
@@ -881,7 +982,8 @@
     </div>
 
     <footer>
-      <p>&copy; 2026 Orb War Game. Fully Optimized Analytics dashboard. <a href="index.html">Back to Game</a> | <a href="#" onclick="openApiModal(event)">⚙️ API Settings</a></p>
+      <p>&copy; 2026 Orb War Game. Fully Optimized Analytics dashboard. <a href="index.html">Back to Game</a> | <a
+          href="#" onclick="openApiModal(event)">⚙️ API Settings</a></p>
     </footer>
 
   </div>
@@ -970,7 +1072,7 @@
     function getApiBase() {
       const saved = localStorage.getItem("stats_api_base");
       if (saved) return saved;
-      return "https://orbwarapi-zqplq76m.b4a.run/api/visitors";
+      return "https://orbwarapi-w4oiadxo.b4a.run/api/visitors";
     }
 
     const API_BASE = getApiBase();
