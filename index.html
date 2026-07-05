@@ -708,6 +708,8 @@
       <div class="pin-error" id="pin-error">Incorrect PIN code. Access Denied.</div>
       <button class="pin-btn" id="pin-submit-btn">Verify Device</button>
     </div>
+  </div>
+
   <!-- API Settings Modal -->
   <div class="pin-overlay hidden" id="api-modal">
     <div class="pin-card" style="max-width: 440px;">
@@ -725,7 +727,7 @@
         <button class="pin-btn" onclick="saveApiBase()" style="flex: 1;">Save & Apply</button>
         <button class="pin-btn" onclick="closeApiModal()" style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff;">Cancel</button>
       </div>
-      <a href="#" onclick="resetApiBase(e)" id="api-reset-btn" style="font-size: 12px; color: var(--accent-blue); text-decoration: none; margin-top: 5px;">Reset to Default</a>
+      <a href="#" onclick="resetApiBase(event)" id="api-reset-btn" style="font-size: 12px; color: var(--accent-blue); text-decoration: none; margin-top: 5px;">Reset to Default</a>
     </div>
   </div>
 
