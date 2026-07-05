@@ -708,6 +708,25 @@
       <div class="pin-error" id="pin-error">Incorrect PIN code. Access Denied.</div>
       <button class="pin-btn" id="pin-submit-btn">Verify Device</button>
     </div>
+  <!-- API Settings Modal -->
+  <div class="pin-overlay hidden" id="api-modal">
+    <div class="pin-card" style="max-width: 440px;">
+      <div class="pin-logo">⚙️</div>
+      <div class="pin-title">API Connection Settings</div>
+      <div class="pin-description">Enter the backend server API base URL (from your computer local network IP). Your computer local IP is <strong>192.168.0.70</strong>.</div>
+      
+      <div class="pin-input-wrapper">
+        <input type="text" id="api-url-input" class="pin-input" style="letter-spacing: normal; font-size: 14.5px; text-align: left; padding: 12px 14px;" placeholder="http://192.168.0.70:5200/api/visitors">
+      </div>
+
+      <div class="pin-error" id="api-error" style="color: #ff5252; margin-top: -5px; margin-bottom: 5px;">Invalid URL format. Must start with http:// or https://</div>
+      
+      <div style="display: flex; gap: 10px; width: 100%;">
+        <button class="pin-btn" onclick="saveApiBase()" style="flex: 1;">Save & Apply</button>
+        <button class="pin-btn" onclick="closeApiModal()" style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff;">Cancel</button>
+      </div>
+      <a href="#" onclick="resetApiBase(e)" id="api-reset-btn" style="font-size: 12px; color: var(--accent-blue); text-decoration: none; margin-top: 5px;">Reset to Default</a>
+    </div>
   </div>
 
   <div class="dashboard-container">
@@ -800,7 +819,7 @@
     </div>
 
     <footer>
-      <p>&copy; 2026 Orb War Game. Fully Optimized Analytics dashboard. <a href="index.html">Back to Game</a></p>
+      <p>&copy; 2026 Orb War Game. Fully Optimized Analytics dashboard. <a href="index.html">Back to Game</a> | <a href="#" onclick="openApiModal(event)">⚙️ API Settings</a></p>
     </footer>
 
   </div>
@@ -886,12 +905,18 @@
       requestAnimationFrame(update);
     }
 
-    // Resolve local C# API address based on client hostname (fallback to 127.0.0.1 if hosted on Pages)
-    let hostname = window.location.hostname || "127.0.0.1";
-    if (hostname.endsWith("github.io")) {
-      hostname = "127.0.0.1";
+    function getApiBase() {
+      const saved = localStorage.getItem("stats_api_base");
+      if (saved) return saved;
+
+      let hostname = window.location.hostname || "127.0.0.1";
+      if (hostname.endsWith("github.io")) {
+        hostname = "127.0.0.1";
+      }
+      return `http://${hostname}:5200/api/visitors`;
     }
-    const API_BASE = `http://${hostname}:5200/api/visitors`;
+
+    const API_BASE = getApiBase();
 
     // Fetch user's public IP address via a CORS-friendly endpoint
     async function getVisitorIp() {
@@ -989,6 +1014,35 @@
     document.getElementById("country-search").addEventListener("input", (e) => {
       renderStats(e.target.value);
     });
+
+    // API Settings Modal Functions
+    function openApiModal(e) {
+      if (e) e.preventDefault();
+      document.getElementById("api-url-input").value = getApiBase();
+      document.getElementById("api-modal").classList.remove("hidden");
+    }
+
+    function closeApiModal() {
+      document.getElementById("api-modal").classList.add("hidden");
+    }
+
+    function saveApiBase() {
+      const urlInput = document.getElementById("api-url-input").value.trim();
+      if (!urlInput.startsWith("http://") && !urlInput.startsWith("https://")) {
+        document.getElementById("api-error").style.display = "block";
+        return;
+      }
+      localStorage.setItem("stats_api_base", urlInput);
+      closeApiModal();
+      location.reload();
+    }
+
+    function resetApiBase(e) {
+      if (e) e.preventDefault();
+      localStorage.removeItem("stats_api_base");
+      closeApiModal();
+      location.reload();
+    }
 
     // Console Authorization Mechanics (Hashed to prevent exposure in raw source inspects)
     const CORRECT_HASH = "90e1956c442d4a555ea5fcac8df4bee61db6718d419f8b4189b076a4b268d12b";
