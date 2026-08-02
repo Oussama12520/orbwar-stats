@@ -867,12 +867,12 @@
       <div class="pin-logo">⚙️</div>
       <div class="pin-title">API Connection Settings</div>
       <div class="pin-description">Enter the backend server API base URL (e.g. for local testing). The default public
-        URL is <strong>https://orbwarapi-w4oiadxo.b4a.run/api/visitors</strong>.</div>
+        URL is <strong>https://orbwar-backend.onrender.com/api/visitors</strong>.</div>
 
       <div class="pin-input-wrapper">
         <input type="text" id="api-url-input" class="pin-input"
           style="letter-spacing: normal; font-size: 14.5px; text-align: left; padding: 12px 14px;"
-          placeholder="https://orbwarapi-w4oiadxo.b4a.run/api/visitors">
+          placeholder="https://orbwar-backend.onrender.com/api/visitors">
       </div>
 
       <div class="pin-error" id="api-error" style="color: #ff5252; margin-top: -5px; margin-bottom: 5px;">Invalid URL
@@ -982,7 +982,7 @@
     </div>
 
     <footer>
-      <p>&copy; 2026 Orb War Game. Fully Optimized Analytics dashboard. <a href="index.html">Back to Game</a> | <a
+      <p>&copy; 2026 Orb War Game. Fully Optimized Analytics dashboard. <a href="https://orbwar.orbwar-game.workers.dev/">Back to Game</a> | <a
           href="#" onclick="openApiModal(event)">⚙️ API Settings</a></p>
     </footer>
 
@@ -1072,7 +1072,7 @@
     function getApiBase() {
       const saved = localStorage.getItem("stats_api_base");
       if (saved) return saved;
-      return "https://orbwarapi-w4oiadxo.b4a.run/api/visitors";
+      return "https://orbwar-backend.onrender.com/api/visitors";
     }
 
     const API_BASE = getApiBase();
