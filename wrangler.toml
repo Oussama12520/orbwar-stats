@@ -1,0 +1,7 @@
+name = "orbwar-stats"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[rules]
+globs = ["**/*.html"]
+type = "Text"
